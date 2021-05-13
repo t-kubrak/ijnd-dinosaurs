@@ -1,3 +1,5 @@
+const form = document.getElementById('dino-compare');
+const submitBtn = document.getElementById('btn');
 
     // Create Dino Constructor
 
@@ -6,8 +8,14 @@
 
 
     // Create Human Object
+    function Human(object) {
+        return Object.assign({}, object)
+    }
 
     // Use IIFE to get human data from form
+    function getFormData() {
+        return Object.fromEntries(new FormData(form))
+    }
 
 
     // Create Dino Compare Method 1
@@ -30,3 +38,9 @@
 
 
 // On button click, prepare and display infographic
+submitBtn.addEventListener("click", (e) => {
+    const formData = getFormData();
+    const human = Human(formData);
+
+    console.log(human);
+});
