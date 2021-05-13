@@ -2,10 +2,20 @@ const form = document.getElementById('dino-compare');
 const submitBtn = document.getElementById('btn');
 
     // Create Dino Constructor
-
+    function Dino(object) {
+        return Object.assign({}, object)
+    }
 
     // Create Dino Objects
-
+    async function getDinos() {
+        try {
+            const response = await fetch('./dino.json');
+            const json = await response.json();
+            return json.Dinos.map((record) => Dino(record));
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     // Create Human Object
     function Human(object) {
@@ -41,6 +51,7 @@ const submitBtn = document.getElementById('btn');
 submitBtn.addEventListener("click", (e) => {
     const formData = getFormData();
     const human = Human(formData);
+    getDinos().then((dinos) => console.log(dinos));
 
     console.log(human);
 });
