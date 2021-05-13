@@ -38,27 +38,41 @@ const grid = document.getElementById('grid');
     // Create Dino Compare Method 3
     // NOTE: Weight in JSON file is in lbs, height in inches.
 
+    function createTileFromHuman(human) {
+        let gridItem = document.createElement('div')
+        gridItem.className = "grid-item"
+        gridItem.innerHTML =
+            `<h3>${human.name}</h3>
+            <p>Weight: ${human.weight} lbs</p>
+            <img src="images/human.png">`;
+
+        return gridItem;
+    }
+
+    function createTileFromDino(dino) {
+        let gridItem = document.createElement('div')
+        gridItem.className = "grid-item"
+        gridItem.innerHTML =
+            `<h3>${dino.species}</h3>
+            <p>Weight: ${dino.weight} lbs</p>
+            <img src="images/${dino.species.toLowerCase()}.png">`;
+
+        return gridItem;
+    }
 
     // Generate Tiles for each Dino in Array
-    function generateTiles(dinos) {
+    function generateTilesFromDinos(dinos) {
         return dinos.map((dino) => {
-            let gridItem = document.createElement('div')
-            gridItem.className = "grid-item"
-            gridItem.innerHTML =
-                `<h3>dino.species</h3>
-                <p>Weight: dino.weight</p>
-                <img src="images/${dino.species.toLowerCase()}.png">`;
-
-            return gridItem;
+            return createTileFromDino(dino);
         })
     }
 
     // Add tiles to DOM
     function showTiles(tiles) {
-        const fragment = document.createDocumentFragment();
-        tiles.forEach(tile => fragment.append(tile))
+        const div = document.createElement('div') ;
+        tiles.forEach(tile => div.append(tile))
         console.log(tiles);
-        grid.append(fragment);
+        grid.innerHTML = div.innerHTML;
     }
 
     // Remove form from screen
@@ -68,10 +82,12 @@ const grid = document.getElementById('grid');
 submitBtn.addEventListener("click", (e) => {
     const formData = getFormData();
     const human = Human(formData);
+    const humanTile = createTileFromHuman(human);
 
     getDinos().then((dinos) => {
-        const tiles = generateTiles(dinos);
-        showTiles(tiles)
+        const tiles = generateTilesFromDinos(dinos);
+        tiles.splice(4, 0, humanTile);
+        showTiles(tiles);
     });
 
     console.log(human);
