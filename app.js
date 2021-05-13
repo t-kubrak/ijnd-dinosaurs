@@ -75,6 +75,9 @@ function showTiles(tiles) {
 }
 
 // Remove form from screen
+function removeForm() {
+    form.style.display = 'none';
+}
 
 
 // On button click, prepare and display infographic
@@ -90,4 +93,5 @@ submitBtn.addEventListener("click", (e) => {
     });
 
     console.log(human);
+    //removeForm();
 });
