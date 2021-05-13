@@ -20,7 +20,9 @@ async function getDinos() {
 
 // Create Human Object
 function Human(object) {
-    return Object.assign({}, object)
+    let human = Object.assign({}, object);
+    human.height = human.feet * 12 + human.inches;
+    return human;
 }
 
 // Use IIFE to get human data from form
@@ -31,12 +33,41 @@ function getFormData() {
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
+function heightDiff(human, dino) {
+    return human.height - dino.height; // TODO: format output
+}
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
+
+function randomizeFactForDino(dinos, human) {
+    const getRandomInt = (max) => {
+        return Math.floor(Math.random() * max);
+    }
+
+    const getRandomFact = (dino) => {
+        let fact = null;
+
+        switch (getRandomInt(3)) {
+            case 0:
+                fact = heightDiff(human, dino);
+                break;
+            // TODO: add other cases
+            default:
+                fact = dino.fact
+        }
+
+        return fact;
+    }
+
+    return dinos.map(dino => {
+        dino.fact = getRandomFact(dino);
+        return dino;
+    })
+}
 
 function createTileFromHuman(human) {
     let gridItem = document.createElement('div')
@@ -79,14 +110,14 @@ function removeForm() {
     form.style.display = 'none';
 }
 
-
 // On button click, prepare and display infographic
 submitBtn.addEventListener("click", (e) => {
     const formData = getFormData();
-    const human = Human(formData);
+    const human = new Human(formData);
     const humanTile = createTileFromHuman(human);
 
     getDinos().then((dinos) => {
+        dinos = randomizeFactForDino(dinos, human);
         const tiles = generateTilesFromDinos(dinos);
         tiles.splice(4, 0, humanTile);
         showTiles(tiles);
