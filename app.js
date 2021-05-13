@@ -43,7 +43,6 @@ function createTileFromHuman(human) {
     gridItem.className = "grid-item"
     gridItem.innerHTML =
         `<h3>${human.name}</h3>
-        <p>Weight: ${human.weight} lbs</p>
         <img src="images/human.png">`;
 
     return gridItem;
@@ -54,7 +53,7 @@ function createTileFromDino(dino) {
     gridItem.className = "grid-item"
     gridItem.innerHTML =
         `<h3>${dino.species}</h3>
-        <p>Weight: ${dino.weight} lbs</p>
+        <p>${dino.fact}</p>
         <img src="images/${dino.species.toLowerCase()}.png">`;
 
     return gridItem;
