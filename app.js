@@ -29,17 +29,31 @@ function getFormData() {
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 function heightDiff(human, dino) {
-    return human.height === dino.height
-        ? ' Your heights are the same!'
-        : `His height is ${dino.height} in. and yours is ${human.height} in.`;
+    let diff = '';
+
+    if (human.height === dino.height) {
+        diff = 'Your heights are the same!';
+    } else {
+        const result = human.height < dino.height ? 'smaller' : 'taller';
+        diff = `You are ${result} than ${dino.species}! His height is ${dino.height} in. and yours is ${human.height} in.`;
+    }
+
+    return diff;
 }
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
 function weightDiff(human, dino) {
-    return human.weight === dino.weight
-        ? 'Your weights are the same!'
-        : `His weight is ${dino.weight} lbs and yours is ${human.weight} lbs`;
+    let diff = '';
+
+    if (human.weight === dino.weight) {
+        diff = 'Your weights are the same!';
+    } else {
+        const result = human.weight < dino.weight ? 'lighter' : 'heavier';
+        diff = `You are ${result} than ${dino.species}! His weight is ${dino.weight} lbs. and yours is ${human.weight} lbs.`;
+    }
+
+    return diff;
 }
 
 // Create Dino Compare Method 3
@@ -69,6 +83,9 @@ function randomizeFactForDino(dinos, human) {
                 fact = dietDiff(human, dino);
                 break;
             case 3:
+                fact = dino.fact
+                break;
+            default:
                 fact = dino.fact
                 break;
         }
@@ -123,10 +140,10 @@ submitBtn.addEventListener('click', (e) => {
     const human = new Human(formData);
     const humanTile = createTileFromObject(human);
 
-    let dinos = getDinos();
-    dinos = randomizeFactForDino(dinos, human);
+    const dinos = getDinos();
+    const formattedDinos = randomizeFactForDino(dinos, human);
 
-    const tiles = generateTilesFromDinos(dinos);
+    const tiles = generateTilesFromDinos(formattedDinos);
     tiles.splice(4, 0, humanTile);
 
     showTiles(tiles);
