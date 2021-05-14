@@ -1,4 +1,4 @@
-{
+const data = {
     "Dinos": [
         {
             "species": "Triceratops",

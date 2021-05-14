@@ -8,20 +8,15 @@ function Dino(object) {
 }
 
 // Create Dino Objects
-async function getDinos() {
-    try {
-        const response = await fetch('./dino.json');
-        const json = await response.json();
-        return json.Dinos.map((record) => Dino(record));
-    } catch (e) {
-        console.log(e);
-    }
+function getDinos() {
+    return data.Dinos.map((record) => Dino(record));
 }
 
 // Create Human Object
 function Human(object) {
     let human = Object.assign({}, object);
     human.height = human.feet * 12 + human.inches;
+    human.species = 'human';
     return human;
 }
 
@@ -90,23 +85,14 @@ function randomizeFactForDino(dinos, human) {
     })
 }
 
-function createTileFromHuman(human) {
+function createTileFromObject(obj) {
+    const fact = obj.species !== 'human' ? obj.fact : '';
     let gridItem = document.createElement('div')
     gridItem.className = "grid-item"
     gridItem.innerHTML =
-        `<h3>${human.name}</h3>
-        <img src="images/human.png">`;
-
-    return gridItem;
-}
-
-function createTileFromDino(dino) {
-    let gridItem = document.createElement('div')
-    gridItem.className = "grid-item"
-    gridItem.innerHTML =
-        `<h3>${dino.species}</h3>
-        <p>${dino.fact}</p>
-        <img src="images/${dino.species.toLowerCase()}.png">`;
+        `<h3>${obj.species}</h3>
+        <p>${fact}</p>
+        <img src="images/${obj.species.toLowerCase()}.png">`;
 
     return gridItem;
 }
@@ -114,7 +100,7 @@ function createTileFromDino(dino) {
 // Generate Tiles for each Dino in Array
 function generateTilesFromDinos(dinos) {
     return dinos.map((dino) => {
-        return createTileFromDino(dino);
+        return createTileFromObject(dino);
     })
 }
 
@@ -122,7 +108,6 @@ function generateTilesFromDinos(dinos) {
 function showTiles(tiles) {
     const div = document.createElement('div');
     tiles.forEach(tile => div.append(tile));
-    console.log(tiles);
     grid.innerHTML = div.innerHTML;
 }
 
@@ -135,15 +120,15 @@ function removeForm() {
 submitBtn.addEventListener("click", (e) => {
     const formData = getFormData();
     const human = new Human(formData);
-    const humanTile = createTileFromHuman(human);
+    const humanTile = createTileFromObject(human);
 
-    getDinos().then((dinos) => {
-        dinos = randomizeFactForDino(dinos, human);
-        const tiles = generateTilesFromDinos(dinos);
-        tiles.splice(4, 0, humanTile);
-        showTiles(tiles);
-    });
+    let dinos = getDinos();
+    dinos = randomizeFactForDino(dinos, human);
 
-    console.log(human);
-    //removeForm();
+    const tiles = generateTilesFromDinos(dinos);
+    tiles.splice(4, 0, humanTile);
+
+    showTiles(tiles);
+
+    removeForm();
 });
