@@ -87,10 +87,11 @@ function randomizeFactForDino(dinos, human) {
 
 function createTileFromObject(obj) {
     const fact = obj.species !== 'human' ? obj.fact : '';
+    const title = obj.species !== 'human' ? obj.species : obj.name;
     let gridItem = document.createElement('div')
     gridItem.className = "grid-item"
     gridItem.innerHTML =
-        `<h3>${obj.species}</h3>
+        `<h3>${title}</h3>
         <p>${fact}</p>
         <img src="images/${obj.species.toLowerCase()}.png">`;
 
