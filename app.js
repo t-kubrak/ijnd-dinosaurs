@@ -89,11 +89,11 @@ function createTileFromObject(obj) {
     const fact = obj.species !== 'human' ? obj.fact : '';
     const title = obj.species !== 'human' ? obj.species : obj.name;
     let gridItem = document.createElement('div')
-    gridItem.className = "grid-item"
+    gridItem.className = 'grid-item'
     gridItem.innerHTML =
         `<h3>${title}</h3>
         <p>${fact}</p>
-        <img src="images/${obj.species.toLowerCase()}.png">`;
+        <img src='images/${obj.species.toLowerCase()}.png'>`;
 
     return gridItem;
 }
@@ -118,7 +118,7 @@ function removeForm() {
 }
 
 // On button click, prepare and display infographic
-submitBtn.addEventListener("click", (e) => {
+submitBtn.addEventListener('click', (e) => {
     const formData = getFormData();
     const human = new Human(formData);
     const humanTile = createTileFromObject(human);
