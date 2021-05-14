@@ -15,7 +15,7 @@ function getDinos() {
 // Create Human Object
 function Human(object) {
     let human = Object.assign({}, object);
-    human.height = human.feet * 12 + human.inches;
+    human.height = human.feet * 12 + parseInt(human.inches);
     human.species = 'human';
     return human;
 }
