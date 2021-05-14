@@ -34,14 +34,26 @@ function getFormData() {
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
 function heightDiff(human, dino) {
-    return human.height - dino.height; // TODO: format output
+    return human.height === dino.height
+        ? ' Your heights are the same!'
+        : `His height is ${dino.height} in. and yours is ${human.height} in.`;
 }
 
 // Create Dino Compare Method 2
 // NOTE: Weight in JSON file is in lbs, height in inches.
+function weightDiff(human, dino) {
+    return human.weight === dino.weight
+        ? 'Your weights are the same!'
+        : `His weight is ${dino.weight} lbs and yours is ${human.weight} lbs`;
+}
 
 // Create Dino Compare Method 3
 // NOTE: Weight in JSON file is in lbs, height in inches.
+function dietDiff(human, dino) {
+    return human.diet.toLowerCase() === dino.diet.toLowerCase()
+        ? 'Your diets are the same!'
+        : `His diet is ${dino.diet} and yours is ${human.diet}`;
+}
 
 function randomizeFactForDino(dinos, human) {
     const getRandomInt = (max) => {
@@ -51,20 +63,29 @@ function randomizeFactForDino(dinos, human) {
     const getRandomFact = (dino) => {
         let fact = null;
 
-        switch (getRandomInt(3)) {
+        switch (getRandomInt(4)) {
             case 0:
                 fact = heightDiff(human, dino);
                 break;
-            // TODO: add other cases
-            default:
+            case 1:
+                fact = weightDiff(human, dino);
+                break;
+            case 2:
+                fact = dietDiff(human, dino);
+                break;
+            case 3:
                 fact = dino.fact
+                break;
         }
 
         return fact;
     }
 
     return dinos.map(dino => {
-        dino.fact = getRandomFact(dino);
+        if (dino.species !== 'Pigeon') {
+            dino.fact = getRandomFact(dino);
+        }
+
         return dino;
     })
 }
